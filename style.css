@@ -136,4 +136,11 @@ footer {
   .card {
     width: 80%;
   }
+  /* プロファイル */
+.profile-img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
 }
