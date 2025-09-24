@@ -42,7 +42,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: #ffd700;
+  color: #ffd700; /* ベルギーの黄色 */
 }
 
 /* メイン */
@@ -65,36 +65,7 @@ section p {
   color: #555;
 }
 
-/* フッター */
-footer {
-  background-color: #222;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-}
-
-/* メディアクエリ */
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 2rem;
-  }
-
-  nav ul li {
-    display: block;
-    margin: 10px 0;
-  }
-
-  section h2 {
-    font-size: 1.5rem;
-  }
-
-  section p {
-    font-size: 1rem;
-  }
-  /* 事業ページカード */
+/* 事業ページカード */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -126,8 +97,37 @@ footer {
   color: #555;
 }
 
-/* スマホ対応 */
+/* フッター */
+footer {
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+/* メディアクエリ（レスポンシブ） */
 @media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  nav ul li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  section h2 {
+    font-size: 1.5rem;
+  }
+
+  section p {
+    font-size: 1rem;
+  }
+
+  /* カードを縦並びに */
   .cards {
     flex-direction: column;
     align-items: center;
@@ -136,6 +136,4 @@ footer {
   .card {
     width: 80%;
   }
-}
-
 }
