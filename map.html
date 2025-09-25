@@ -42,16 +42,6 @@
       border: 1px solid #ccc;
     }
 
-    /* 黄色で主張領土 */
-    .claimed-territory {
-      position: absolute;
-      background: rgba(255, 255, 0, 0.5);
-      border: 1px solid gold;
-      border-radius: 4px;
-      pointer-events: none;
-      z-index: 0; /* 赤丸より下 */
-    }
-
     /* 赤丸マーカー */
     .marker {
       position: absolute;
@@ -62,12 +52,10 @@
       border: 2px solid white;
       cursor: pointer;
       transform: translate(-50%, -50%);
-      z-index: 10; /* 黄色より上 */
+      z-index: 10;
     }
 
-    .marker:hover {
-      background: darkred;
-    }
+    .marker:hover { background: darkred; }
 
     /* 情報カード */
     .info-card {
@@ -82,16 +70,10 @@
       width: 200px;
       z-index: 20;
     }
-    .info-card h4 {
-      margin: 0 0 5px;
-      font-size: 1rem;
-      color: #000;
-    }
-    .info-card p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #555;
-    }
+
+    .info-card h4 { margin: 0 0 5px; font-size: 1rem; color: #000; }
+    .info-card p { margin: 0; font-size: 0.9rem; color: #555; }
+
   </style>
 </head>
 <body>
@@ -116,19 +98,16 @@
       <div class="map-container">
         <img id="map-image" src="https://raw.githubusercontent.com/momijidaaa/belgium/main/images/map.png?raw=true" alt="ベルギー主張領土マップ">
 
-        <!-- 黄色領土 -->
-        <div class="claimed-territory" data-top="40" data-left="30" data-width="25" data-height="20"></div>
-        <div class="claimed-territory" data-top="65" data-left="55" data-width="20" data-height="15"></div>
-
-        <!-- 赤丸マーカー -->
-        <div class="marker" data-top="50" data-left="35" onclick="toggleInfo(this)">
+        <!-- 赤丸マーカー（黄色領土内に正確に配置） -->
+        <div class="marker" data-top="42" data-left="49" onclick="toggleInfo(this)">
           <div class="info-card">
             <h4>ブリュッセル</h4>
             <p>ベルギーの首都。</p>
           </div>
         </div>
 
-        <div class="marker" data-top="70" data-left="60" onclick="toggleInfo(this)">
+        <!-- 他の例：キンシャサ -->
+        <div class="marker" data-top="65" data-left="60" onclick="toggleInfo(this)">
           <div class="info-card">
             <h4>キンシャサ</h4>
             <p>コンゴ民主共和国の首都。ベルギーと歴史的関係を持つ。</p>
@@ -144,7 +123,7 @@
   </footer>
 
   <script>
-    // 情報カードトグル
+    // 情報カードの表示切替
     function toggleInfo(marker) {
       const card = marker.querySelector('.info-card');
       const isVisible = card.style.display === 'block';
@@ -152,35 +131,22 @@
       card.style.display = isVisible ? 'none' : 'block';
     }
 
-    // 黄色領土と赤丸マーカーを画像サイズに合わせて配置
-    function adjustPositions() {
+    // 赤丸マーカーを画像サイズに合わせて配置
+    function adjustMarkers() {
       const map = document.getElementById('map-image');
       const width = map.clientWidth;
       const height = map.clientHeight;
 
-      // 黄色領土
-      document.querySelectorAll('.claimed-territory').forEach(div => {
-        const top = parseFloat(div.dataset.top);
-        const left = parseFloat(div.dataset.left);
-        const w = parseFloat(div.dataset.width);
-        const h = parseFloat(div.dataset.height);
-        div.style.top = (height * top / 100) + 'px';
-        div.style.left = (width * left / 100) + 'px';
-        div.style.width = (width * w / 100) + 'px';
-        div.style.height = (height * h / 100) + 'px';
-      });
-
-      // 赤丸マーカー
       document.querySelectorAll('.marker').forEach(marker => {
-        const top = parseFloat(marker.dataset.top);
-        const left = parseFloat(marker.dataset.left);
-        marker.style.top = (height * top / 100) + 'px';
-        marker.style.left = (width * left / 100) + 'px';
+        const topPct = parseFloat(marker.dataset.top);
+        const leftPct = parseFloat(marker.dataset.left);
+        marker.style.top = (height * topPct / 100) + 'px';
+        marker.style.left = (width * leftPct / 100) + 'px';
       });
     }
 
-    window.addEventListener('load', adjustPositions);
-    window.addEventListener('resize', adjustPositions);
+    window.addEventListener('load', adjustMarkers);
+    window.addEventListener('resize', adjustMarkers);
   </script>
 
 </body>
