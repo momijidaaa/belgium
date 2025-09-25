@@ -11,30 +11,56 @@
       position: relative;
       display: inline-block;
     }
-    .city-marker {
+
+    .map-container img {
+      width: 800px; /* 座標合わせのため固定幅にする */
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .marker {
       position: absolute;
-      width: 18px;
-      height: 18px;
-      background-color: red;
-      border: 2px solid #fff;
+      width: 20px;
+      height: 20px;
+      background: red;
       border-radius: 50%;
       transform: translate(-50%, -50%);
       cursor: pointer;
+      border: 2px solid white;
     }
-    #info-box {
-      margin-top: 20px;
+
+    .marker:hover {
+      background: darkred;
+    }
+
+    .info-card {
+      position: absolute;
+      background: white;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: left;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transform: translate(-50%, -110%); /* マーカーの上に配置 */
+      display: none; /* 初期は非表示 */
+      width: 200px;
+      z-index: 10;
+    }
+
+    .info-card h4 {
+      margin: 0 0 5px;
+      font-size: 1rem;
+      color: #000;
+    }
+
+    .info-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <!-- ヘッダー -->
   <header>
     <h1>【かろearth】ベルギー公式Webサイト</h1>
     <nav>
@@ -47,46 +73,47 @@
     </nav>
   </header>
 
-  <!-- メイン -->
   <main>
     <section id="territory">
       <h2>主張領土</h2>
       <p>ベルギーが国際的に主張している領土の範囲を示しています。</p>
-      
-      <div class="map-container">
-        <img src="images/map.png" alt="ベルギー主張領土マップ" style="max-width:100%; height:auto; border:1px solid #ccc; border-radius:8px;">
-        
-        <!-- マーカー例 -->
-        <div class="city-marker" style="top: 35%; left: 40%;" onclick="showInfo('ブリュッセル')"></div>
-        <div class="city-marker" style="top: 33%; left: 42%;" onclick="showInfo('アントワープ')"></div>
-        <div class="city-marker" style="top: 70%; left: 52%;" onclick="showInfo('キンシャサ')"></div>
-      </div>
 
-      <div id="info-box">都市をクリックすると情報が表示されます。</div>
+      <div class="map-container">
+        <img src="images/map.png" alt="ベルギー主張領土マップ">
+
+        <!-- マーカー例 -->
+        <div class="marker" style="top: 45%; left: 48%;" onclick="toggleInfo(this)">
+          <div class="info-card">
+            <h4>ブリュッセル</h4>
+            <p>ベルギーの首都。</p>
+          </div>
+        </div>
+
+        <div class="marker" style="top: 70%; left: 60%;" onclick="toggleInfo(this)">
+          <div class="info-card">
+            <h4>キンシャサ</h4>
+            <p>コンゴ民主共和国の首都。ベルギーと歴史的関係を持つ。</p>
+          </div>
+        </div>
+
+      </div>
     </section>
   </main>
 
-  <!-- フッター -->
   <footer>
     <p>&copy; 2025 【かろearth】ベルギー公式Webサイト</p>
   </footer>
 
   <script>
-    function showInfo(city) {
-      const infoBox = document.getElementById("info-box");
-      let text = "";
-      switch(city) {
-        case "ブリュッセル":
-          text = "ベルギーの首都です。";
-          break;
-        case "アントワープ":
-          text = "ああ";
-          break;
-        case "キンシャサ":
-          text = "コンゴ民主共和国の首都で、ベルギーと歴史的に関係があります。";
-          break;
-      }
-      infoBox.innerHTML = `<strong>${city}</strong><br>${text}`;
+    function toggleInfo(marker) {
+      const card = marker.querySelector('.info-card');
+      const isVisible = card.style.display === 'block';
+      
+      // まず全ての info-card を非表示にする
+      document.querySelectorAll('.info-card').forEach(el => el.style.display = 'none');
+      
+      // 今クリックしたカードだけトグル
+      card.style.display = isVisible ? 'none' : 'block';
     }
   </script>
 </body>
