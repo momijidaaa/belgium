@@ -6,6 +6,32 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .map-container {
+      position: relative;
+      display: inline-block;
+    }
+    .city-marker {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background-color: red;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
+    #info-box {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
   <!-- ヘッダー -->
@@ -26,7 +52,17 @@
     <section id="territory">
       <h2>主張領土</h2>
       <p>ベルギーが国際的に主張している領土の範囲を示しています。</p>
-      <img src="images/map.png" alt="ベルギー主張領土マップ" style="max-width:100%; height:auto; border:1px solid #ccc; border-radius:8px;">
+      
+      <div class="map-container">
+        <img src="images/map.png" alt="ベルギー主張領土マップ" style="max-width:100%; height:auto; border:1px solid #ccc; border-radius:8px;">
+        
+        <!-- マーカー例 -->
+        <div class="city-marker" style="top: 35%; left: 40%;" onclick="showInfo('ブリュッセル')"></div>
+        <div class="city-marker" style="top: 33%; left: 42%;" onclick="showInfo('アントワープ')"></div>
+        <div class="city-marker" style="top: 70%; left: 52%;" onclick="showInfo('キンシャサ')"></div>
+      </div>
+
+      <div id="info-box">都市をクリックすると情報が表示されます。</div>
     </section>
   </main>
 
@@ -34,5 +70,24 @@
   <footer>
     <p>&copy; 2025 【かろearth】ベルギー公式Webサイト</p>
   </footer>
+
+  <script>
+    function showInfo(city) {
+      const infoBox = document.getElementById("info-box");
+      let text = "";
+      switch(city) {
+        case "ブリュッセル":
+          text = "ベルギーの首都です。";
+          break;
+        case "アントワープ":
+          text = "ああ";
+          break;
+        case "キンシャサ":
+          text = "コンゴ民主共和国の首都で、ベルギーと歴史的に関係があります。";
+          break;
+      }
+      infoBox.innerHTML = `<strong>${city}</strong><br>${text}`;
+    }
+  </script>
 </body>
 </html>
