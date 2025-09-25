@@ -4,36 +4,72 @@
   <meta charset="UTF-8">
   <title>主張領土 - 【かろearth】ベルギー公式Webサイト</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header, footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #eee;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+    }
+
     .map-container {
       position: relative;
-      display: inline-block;
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
     }
-
     .map-container img {
-      width: 800px; /* 座標合わせのため固定幅にする */
+      width: 100%;
       height: auto;
-      border: 1px solid #ccc;
+      display: block;
       border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
+    /* 黄色で主張領土 */
+    .claimed-territory {
+      position: absolute;
+      background: rgba(255, 255, 0, 0.5);
+      border: 1px solid gold;
+      border-radius: 4px;
+      pointer-events: none;
+      z-index: 0; /* 赤丸より下 */
+    }
+
+    /* 赤丸マーカー */
     .marker {
       position: absolute;
       width: 20px;
       height: 20px;
       background: red;
       border-radius: 50%;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
       border: 2px solid white;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      z-index: 10; /* 黄色より上 */
     }
 
     .marker:hover {
       background: darkred;
     }
 
+    /* 情報カード */
     .info-card {
       position: absolute;
       background: white;
@@ -41,18 +77,16 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transform: translate(-50%, -110%); /* マーカーの上に配置 */
-      display: none; /* 初期は非表示 */
+      transform: translate(-50%, -110%);
+      display: none;
       width: 200px;
-      z-index: 10;
+      z-index: 20;
     }
-
     .info-card h4 {
       margin: 0 0 5px;
       font-size: 1rem;
       color: #000;
     }
-
     .info-card p {
       margin: 0;
       font-size: 0.9rem;
@@ -61,6 +95,7 @@
   </style>
 </head>
 <body>
+
   <header>
     <h1>【かろearth】ベルギー公式Webサイト</h1>
     <nav>
@@ -79,17 +114,21 @@
       <p>ベルギーが国際的に主張している領土の範囲を示しています。</p>
 
       <div class="map-container">
-        <img src="images/map.png" alt="ベルギー主張領土マップ">
+        <img id="map-image" src="https://raw.githubusercontent.com/momijidaaa/belgium/refs/heads/main/images/map.png" alt="ベルギー主張領土マップ">
 
-        <!-- マーカー例 -->
-        <div class="marker" style="top: 45%; left: 48%;" onclick="toggleInfo(this)">
+        <!-- 黄色領土例 -->
+        <div class="claimed-territory" data-top="40" data-left="30" data-width="25" data-height="20"></div>
+        <div class="claimed-territory" data-top="65" data-left="55" data-width="20" data-height="15"></div>
+
+        <!-- 赤丸マーカー -->
+        <div class="marker" data-top="50" data-left="35" onclick="toggleInfo(this)">
           <div class="info-card">
             <h4>ブリュッセル</h4>
             <p>ベルギーの首都。</p>
           </div>
         </div>
 
-        <div class="marker" style="top: 70%; left: 60%;" onclick="toggleInfo(this)">
+        <div class="marker" data-top="70" data-left="60" onclick="toggleInfo(this)">
           <div class="info-card">
             <h4>キンシャサ</h4>
             <p>コンゴ民主共和国の首都。ベルギーと歴史的関係を持つ。</p>
@@ -105,16 +144,44 @@
   </footer>
 
   <script>
+    // 情報カードトグル
     function toggleInfo(marker) {
       const card = marker.querySelector('.info-card');
       const isVisible = card.style.display === 'block';
-      
-      // まず全ての info-card を非表示にする
       document.querySelectorAll('.info-card').forEach(el => el.style.display = 'none');
-      
-      // 今クリックしたカードだけトグル
       card.style.display = isVisible ? 'none' : 'block';
     }
+
+    // 黄色領土と赤丸マーカーを画像サイズに合わせて配置
+    function adjustPositions() {
+      const map = document.getElementById('map-image');
+      const width = map.clientWidth;
+      const height = map.clientHeight;
+
+      // 黄色領土
+      document.querySelectorAll('.claimed-territory').forEach(div => {
+        const top = parseFloat(div.dataset.top);
+        const left = parseFloat(div.dataset.left);
+        const w = parseFloat(div.dataset.width);
+        const h = parseFloat(div.dataset.height);
+        div.style.top = (height * top / 100) + 'px';
+        div.style.left = (width * left / 100) + 'px';
+        div.style.width = (width * w / 100) + 'px';
+        div.style.height = (height * h / 100) + 'px';
+      });
+
+      // 赤丸マーカー
+      document.querySelectorAll('.marker').forEach(marker => {
+        const top = parseFloat(marker.dataset.top);
+        const left = parseFloat(marker.dataset.left);
+        marker.style.top = (height * top / 100) + 'px';
+        marker.style.left = (width * left / 100) + 'px';
+      });
+    }
+
+    window.addEventListener('load', adjustPositions);
+    window.addEventListener('resize', adjustPositions);
   </script>
+
 </body>
 </html>
