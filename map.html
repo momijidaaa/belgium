@@ -5,78 +5,15 @@
   <title>主張領土 - 【かろearth】ベルギー公式Webサイト</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header, footer {
-      text-align: center;
-      padding: 10px;
-      background-color: #eee;
-    }
-    nav ul {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    nav a {
-      text-decoration: none;
-      color: #333;
-    }
-
-    .map-container {
-      position: relative;
-      width: 100%;
-      max-width: 800px;
-      margin: 20px auto;
-    }
-    .map-container img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    /* 赤丸マーカー */
-    .marker {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: red;
-      border-radius: 50%;
-      border: 2px solid white;
-      cursor: pointer;
-      transform: translate(-50%, -50%);
-      z-index: 10;
-    }
-
-    .marker:hover { background: darkred; }
-
-    /* 情報カード */
-    .info-card {
-      position: absolute;
-      background: white;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transform: translate(-50%, -110%);
-      display: none;
-      width: 200px;
-      z-index: 20;
-    }
-
-    .info-card h4 { margin: 0 0 5px; font-size: 1rem; color: #000; }
-    .info-card p { margin: 0; font-size: 0.9rem; color: #555; }
-
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- ローディング画面 -->
+  <div id="loader">
+    <div class="spinner"></div>
+    <span id="percent">0%</span>
+  </div>
 
   <header>
     <h1>【かろearth】ベルギー公式Webサイト</h1>
@@ -98,7 +35,6 @@
       <div class="map-container">
         <img id="map-image" src="https://raw.githubusercontent.com/momijidaaa/belgium/main/images/map.png?raw=true" alt="ベルギー主張領土マップ">
 
-        <!-- 赤丸マーカー（黄色領土内に正確に配置） -->
         <div class="marker" data-top="42" data-left="49" onclick="toggleInfo(this)">
           <div class="info-card">
             <h4>ブリュッセル</h4>
@@ -106,7 +42,6 @@
           </div>
         </div>
 
-        <!-- 他の例：キンシャサ -->
         <div class="marker" data-top="65" data-left="60" onclick="toggleInfo(this)">
           <div class="info-card">
             <h4>キンシャサ</h4>
@@ -145,7 +80,24 @@
       });
     }
 
-    window.addEventListener('load', adjustMarkers);
+    window.addEventListener('load', () => {
+      adjustMarkers();
+
+      // ローディング擬似パーセント
+      const loader = document.getElementById('loader');
+      const percent = document.getElementById('percent');
+      let count = 0;
+      const interval = setInterval(() => {
+        count++;
+        if(count > 100) count = 100;
+        percent.textContent = count + '%';
+        if(count >= 100){
+          clearInterval(interval);
+          loader.style.display = 'none';
+        }
+      }, 20);
+    });
+
     window.addEventListener('resize', adjustMarkers);
   </script>
 
