@@ -1,11 +1,11 @@
-/* リセットCSS */
+/* -------------------- リセットCSS -------------------- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ボディ */
+/* -------------------- ボディ -------------------- */
 body {
   font-family: 'Arial', sans-serif;
   line-height: 1.6;
@@ -13,7 +13,7 @@ body {
   color: #333;
 }
 
-/* ヘッダー */
+/* -------------------- ヘッダー -------------------- */
 header {
   background-color: #000;
   color: #fff;
@@ -45,7 +45,7 @@ nav ul li a:hover {
   color: #ffd700; /* ベルギーの黄色 */
 }
 
-/* メイン */
+/* -------------------- メイン -------------------- */
 main {
   padding: 20px;
 }
@@ -65,7 +65,7 @@ section p {
   color: #555;
 }
 
-/* 事業ページカード */
+/* -------------------- 事業ページカード -------------------- */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -97,7 +97,7 @@ section p {
   color: #555;
 }
 
-/* 国民一覧表示 */
+/* -------------------- 国民一覧表示 -------------------- */
 .citizen-list {
   list-style: none;
   padding: 0;
@@ -126,7 +126,7 @@ section p {
   object-fit: cover;
 }
 
-/* フッター */
+/* -------------------- フッター -------------------- */
 footer {
   background-color: #222;
   color: #fff;
@@ -137,46 +137,53 @@ footer {
   bottom: 0;
 }
 
-/* メディアクエリ（レスポンシブ） */
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 2rem;
-  }
+/* -------------------- マップ・マーカー -------------------- */
+.map-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+}
 
-  nav ul li {
-    display: block;
-    margin: 10px 0;
-  }
+.map-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
 
-  section h2 {
-    font-size: 1.5rem;
-  }
+.marker {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+  border: 2px solid white;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
 
-  section p {
-    font-size: 1rem;
-  }
+.marker:hover { background: darkred; }
 
-  /* カードを縦並びに */
-  .cards {
-    flex-direction: column;
-    align-items: center;
-  }
+.info-card {
+  position: absolute;
+  background: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transform: translate(-50%, -110%);
+  display: none;
+  width: 200px;
+  z-index: 20;
+}
 
-  .card {
-    width: 80%;
-  }
+.info-card h4 { margin: 0 0 5px; font-size: 1rem; color: #000; }
+.info-card p { margin: 0; font-size: 0.9rem; color: #555; }
 
-  /* 国民一覧も縦幅調整 */
-  .citizen-list a {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .profile-img {
-    margin-bottom: 10px;
-    margin-right: 0;
-  }
-　/* ローディング画面 */
+/* -------------------- ローディング画面 -------------------- */
 #loader {
   position: fixed;
   top: 0; left: 0;
@@ -208,4 +215,42 @@ footer {
   font-size: 1.5rem;
   color: #333;
 }
+
+/* -------------------- メディアクエリ -------------------- */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  nav ul li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  section h2 {
+    font-size: 1.5rem;
+  }
+
+  section p {
+    font-size: 1rem;
+  }
+
+  .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 80%;
+  }
+
+  .citizen-list a {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-img {
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
 }
