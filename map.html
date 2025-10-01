@@ -34,21 +34,6 @@
 
       <div class="map-container">
         <img id="map-image" src="https://raw.githubusercontent.com/momijidaaa/belgium/main/images/map.png?raw=true" alt="ベルギー主張領土マップ">
-
-        <div class="marker" data-top="42" data-left="49" onclick="toggleInfo(this)">
-          <div class="info-card">
-            <h4>ブリュッセル</h4>
-            <p>ベルギーの首都。</p>
-          </div>
-        </div>
-
-        <div class="marker" data-top="65" data-left="60" onclick="toggleInfo(this)">
-          <div class="info-card">
-            <h4>キンシャサ</h4>
-            <p>コンゴ民主共和国の首都。ベルギーと歴史的関係を持つ。</p>
-          </div>
-        </div>
-
       </div>
     </section>
   </main>
@@ -58,31 +43,12 @@
   </footer>
 
   <script>
-    // 情報カードの表示切替
-    function toggleInfo(marker) {
-      const card = marker.querySelector('.info-card');
-      const isVisible = card.style.display === 'block';
-      document.querySelectorAll('.info-card').forEach(el => el.style.display = 'none');
-      card.style.display = isVisible ? 'none' : 'block';
-    }
-
-    // 赤丸マーカーを画像サイズに合わせて配置
+    // 赤丸マーカー削除したので、マーカー関連の処理も削除
     function adjustMarkers() {
-      const map = document.getElementById('map-image');
-      const width = map.clientWidth;
-      const height = map.clientHeight;
-
-      document.querySelectorAll('.marker').forEach(marker => {
-        const topPct = parseFloat(marker.dataset.top);
-        const leftPct = parseFloat(marker.dataset.left);
-        marker.style.top = (height * topPct / 100) + 'px';
-        marker.style.left = (width * leftPct / 100) + 'px';
-      });
+      // 何もしない（空関数）
     }
 
     window.addEventListener('load', () => {
-      adjustMarkers();
-
       // ローディング擬似パーセント
       const loader = document.getElementById('loader');
       const percent = document.getElementById('percent');
@@ -97,8 +63,6 @@
         }
       }, 20);
     });
-
-    window.addEventListener('resize', adjustMarkers);
   </script>
 
 </body>
